@@ -6,12 +6,67 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://kit.fontawesome.com/2621df78fc.js" crossorigin="anonymous"></script>
-  <title>Name</title>
+  <title>Todo App</title>
 </head>
 
 <body>
 
-  <h1>Hello World</h1>
+  <header>
+    <!-- TITLE DARK_MODE -->
+    <div class="position_title_create">
+      <div>
+        <h1>TODO</h1>
+        <button class="DarkOrLight">
+          <img id="bDark" src="public/icon-moon.svg" alt="dark mode">
+          <!-- <img id="bLight" src="public/icon-sun.svg" alt="light mode"> -->
+        </button>
+      </div>
+
+      <!-- CREATE TODO -->
+      <label for="text" class="create_todo">
+        <input class="checkbox" type="submit" name="submit" id="submit">
+        <label for="submit" class="circle"><img src="public/icon-check.svg" alt="check"></label>
+        <input class="create_title" type="text" name="text" id="text" placeholder="Create a new todo…">
+      </label>
+    </div>
+  </header>
+
+  <main>
+    <ul>
+      <!-- POSTS -->
+      <li class="posts">
+        <div>
+          <input class="checkbox" type="checkbox" name="checkbox" id="checked">
+          <label for="checked" class="circle"></label>
+          <span>Hello World</span>
+        </div>
+        <button class="cross"><img src="public/icon-cross.svg" alt="cross"></button>
+      </li>
+
+      <!-- FOOTER LIST -->
+      <li class="footer_list">
+        <p><span>1</span> items left</p>
+        <ul>
+          <li><button>All</button></li>
+          <li><button>Active</button></li>
+          <li><button>Completed</button></li>
+        </ul>
+        <button class="clear">Clear Completed</button>
+      </li>
+
+    </ul>
+
+    <ul class="footer_list_mobile">
+      <li><button>All</button></li>
+      <li><button>Active</button></li>
+      <li><button>Completed</button></li>
+    </ul>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <h2>Drag and drop to reorder list</h2>
+  </footer>
 
   <script type="module" src="/js/main.js"></script>
 </body>

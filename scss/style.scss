@@ -1,3 +1,305 @@
-h1 {
-    color: red;
+body {
+    font-family: Josefin Sans;
+    background-color: $body;
 }
+
+%checkbox_none {
+    .checkbox {
+        display: none;
+    }
+}
+
+@mixin width_main ($w: 37rem) {
+    width: $w;
+}
+
+@mixin height_posts ($h: 4rem) {
+    height: $h;
+}
+
+%circle {
+    margin-right: 1rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    background-image: url("../public/circle.svg");
+    background-size: 1.4rem;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+header {
+    color: $w;
+    height: 45vh;
+    padding-top: 5rem;
+    background-image: url("../public/bg-desktop-light.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    .position_title_create {
+        // TITLE DARK_MODE
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+
+        div {
+            letter-spacing: $ls;
+            @include width_main;
+            margin-bottom: 2.7rem;
+            display: flex;
+            justify-content: space-between;
+
+            h1 {
+                font-size: 3rem;
+                user-select: none;
+            }
+        }
+
+        // CREATE TODO
+        .create_todo {
+            @include width_main;
+            @include height_posts;
+            padding: 1rem $paddingX;
+            background-color: $w;
+            border-radius: $radius;
+            box-shadow: $shadow;
+            display: flex;
+            align-items: center;
+
+            .checkbox {
+                display: none;
+            }
+
+            .circle {
+                @extend %circle;
+            }
+
+            .create_title {
+                color: $bl;
+                font-size: 1rem;
+                height: 2rem;
+                padding: 0 0.3rem;
+                border-style: none;
+
+                &:focus {
+                    outline: none;
+                }
+            }
+        }
+    }
+}
+
+main {
+    transform: translateY(-3rem);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: $radius;
+
+    ul {
+        @include width_main;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        box-shadow: $shadow;
+
+        // POSTS
+        .posts {
+            width: 100%;
+            @include height_posts;
+            padding: 1rem $paddingX;
+            background-color: $w;
+            border-bottom: solid 0.1rem $g;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            &:first-child {
+                border-top-left-radius: $radius;
+                border-top-right-radius: $radius;
+            }
+
+            div {
+                display: flex;
+                align-items: center;
+
+                @extend %checkbox_none;
+
+                .circle {
+                    @extend %circle;
+
+                    &:hover {
+                        background-image: url("../public/circle-hover.svg");
+                    }
+
+                }
+
+                span {
+                    display: flex;
+                    align-items: center;
+                }
+            }
+
+            .cross {
+                display: none;
+                width: 1rem;
+                align-items: center;
+            }
+
+            &:hover>.cross {
+                display: flex;
+            }
+        }
+
+        // FOOTER LIST
+        .footer_list {
+            color: $g;
+            width: 100%;
+            @include height_posts(3rem);
+            padding: 0 $paddingX;
+            background-color: $w;
+            border-bottom-left-radius: $radius;
+            border-bottom-right-radius: $radius;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            p {
+                width: 10rem;
+                font-size: $min_txt;
+            }
+
+            ul {
+                display: flex;
+                justify-content: center;
+                flex-direction: row;
+                gap: 4%;
+
+                li {
+                    button {
+                        font-weight: bold;
+                        padding: 0.3rem;
+
+                        &:hover {
+                            color: $b;
+                        }
+                    }
+                }
+            }
+
+            .clear {
+                width: 10rem;
+                text-align: end;
+                font-size: $min_txt;
+
+                &:hover {
+                    color: $b;
+                }
+
+                &:active {
+                    color: $r;
+                }
+            }
+        }
+    }
+
+    .footer_list_mobile {
+        display: none;
+        margin-top: 1rem;
+        color: $g;
+        @include height_posts (3rem);
+        background-color: $w;
+        border-radius: $radius;
+        box-shadow: $shadow;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        gap: 1.5rem;
+
+        button {
+            font-weight: bold;
+
+            &:hover {
+                color: $b;
+            }
+        }
+    }
+}
+
+// FOOTER
+footer {
+    color: $g;
+    font-size: 0.6rem;
+    text-align: center;
+}
+
+@media screen and (max-width: 650px) {
+    header {
+        .position_title_create {
+
+            // TITLE DARK_MODE
+            div {
+                @include width_main(20.5rem);
+
+                h1 {
+                    font-size: 2rem;
+                }
+            }
+
+            // CREATE TODO
+            .create_todo {
+                @include width_main(20.5rem);
+                @include height_posts(3.5rem);
+
+                .create_title {
+                    font-size: 0.8rem;
+                }
+            }
+        }
+    }
+
+    main {
+        ul {
+            @include width_main(20.5rem);
+
+            // POSTS
+            .posts {
+                @include height_posts(3.5rem);
+
+                div {
+                    span {
+                        font-size: 0.8rem;
+                    }
+                }
+
+                .cross {
+                    display: flex;
+                }
+            }
+
+            // FOOTER LIST
+            .footer_list {
+                padding-top: 1rem;
+                align-items: start;
+
+                ul {
+                    display: none;
+                }
+            }
+        }
+
+        .footer_list_mobile {
+            display: flex;
+        }
+    }
+}
+
+// JS🟡
+// #bDark {
+//     display: block;
+// }
+
+// #bLight {
+//     display: none;
+// }

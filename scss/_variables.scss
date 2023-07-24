@@ -1,7 +1,20 @@
 // 🔴font-family
-
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;600&display=swap');
 
 // 🔴colors
+$body: #FAFAFA;
 $w: #FFF;
 $b: #000;
-$eden-school: #65C1BE;
+$bl: #393A4B;
+$g: #9495A5;
+$r: red;
+$shadow: 0px 35px 50px -15px rgba(194, 195, 214, 0.50);
+$lg: linear-gradient(135deg, #5DF 0%, #C058F3 100%);
+
+// 🔴size
+$h_posts: 4rem;
+$h_posts_f: 3rem;
+$paddingX: 1.2rem;
+$radius: 0.3rem;
+$min_txt: 0.8rem;
+$ls: 15px;
