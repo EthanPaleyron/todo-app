@@ -37,8 +37,8 @@ header {
     background-repeat: no-repeat;
     background-size: cover;
 
+    // TITLE DARK_MODE
     .position_title_create {
-        // TITLE DARK_MODE
         display: flex;
         align-items: center;
         flex-direction: column;
@@ -73,6 +73,7 @@ header {
 
             .circle {
                 @extend %circle;
+
             }
 
             .create_title {
@@ -97,7 +98,7 @@ main {
     align-items: center;
     border-radius: $radius;
 
-    ul {
+    #list_post {
         @include width_main;
         display: flex;
         align-items: center;
@@ -208,6 +209,7 @@ main {
         display: none;
         margin-top: 1rem;
         color: $g;
+        @include width_main(20.5rem);
         @include height_posts (3rem);
         background-color: $w;
         border-radius: $radius;
@@ -260,7 +262,7 @@ footer {
     }
 
     main {
-        ul {
+        #list_post {
             @include width_main(20.5rem);
 
             // POSTS
@@ -296,10 +298,16 @@ footer {
 }
 
 // JS🟡
-// #bDark {
-//     display: block;
-// }
+#bDark {
+    display: block;
+}
 
-// #bLight {
-//     display: none;
+#bLight {
+    display: none;
+}
+
+// .checkboxActive {
+//     z-index: 1;
+//     border-radius: 50%;
+//     background: $lg;
 // }
