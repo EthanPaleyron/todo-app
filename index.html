@@ -9,16 +9,14 @@
   <title>Todo App</title>
 </head>
 
-<body>
+<body data-theme="light">
 
   <header>
     <!-- TITLE DARK_MODE -->
     <div class="position_title_create">
       <div>
         <h1>TODO</h1>
-        <button id="DarkOrLight">
-          <img id="bDark" src="public/icon-moon.svg" alt="dark mode">
-          <img id="bLight" src="public/icon-sun.svg" alt="light mode">
+        <button class="DarkOrLight">
         </button>
       </div>
 
@@ -26,41 +24,49 @@
       <label for="text" id="createTodo" class="create_todo">
         <input class="checkbox" type="submit" name="submit" id="submit">
         <label for="submit" class="circle"><img src="public/icon-check.svg" alt="check"></label>
-        <input class="create_title" type="text" name="text" id="text" placeholder="Create a new todo…">
+        <input class="create_title" type="text" name="text" id="inputText" placeholder="Create a new todo…">
       </label>
     </div>
   </header>
 
   <main>
-    <ul id="list_post">
-      <!-- POSTS -->
-      <li class="posts">
-        <div>
-          <input class="checkbox" type="checkbox" name="checkbox" id="checkbox">
-          <label for="checkbox" class="circle"></label>
-          <span id="titleTodo">Hello World</span>
-        </div>
-        <button class="cross"><img src="public/icon-cross.svg" alt="cross"></button>
-      </li>
+    <div class="content_todo">
+      <ul id="listContainer">
+        <li class="zero_posts lists" id="zeroPosts">
+          <label for="inputText">
+            <p>Your todo list is empty 🙁</p>
+          </label>
+        </li>
+        <!-- POSTS -->
+        <li class="posts lists">
+          <div>
+            <input class="checkbox" type="checkbox" name="checkbox" id="checked">
+            <label for="checked" class="circle"></label>
+            <span id="titleTodo">Hello World</span>
+          </div>
+          <button id="delets" class="cross"><img src="public/icon-cross.svg" alt="cross"></button>
+        </li>
+      </ul>
 
       <!-- FOOTER LIST -->
-      <li class="footer_list">
-        <p><span>1</span> items left</p>
+      <div class="footer_list">
+        <p><span id="todoCounteur">0</span> items left</p>
         <ul>
           <li><button id="all">All</button></li>
           <li><button id="active">Active</button></li>
           <li><button id="completed">Completed</button></li>
         </ul>
         <button class="clear">Clear Completed</button>
-      </li>
+      </div>
+    </div>
 
-    </ul>
-
-    <ul class="footer_list_mobile">
-      <li><button id="allM">All</button></li>
-      <li><button id="activeM">Active</button></li>
-      <li><button id="completedM">Completed</button></li>
-    </ul>
+    <div class="footer_list_mobile">
+      <ul class="footer_list_mobile">
+        <li><button id="allM">All</button></li>
+        <li><button id="activeM">Active</button></li>
+        <li><button id="completedM">Completed</button></li>
+      </ul>
+    </div>
   </main>
 
   <!-- FOOTER -->

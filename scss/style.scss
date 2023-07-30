@@ -17,11 +17,12 @@ body {
     height: $h;
 }
 
-%circle {
+@mixin circle ($img: url("../public/circle.svg")) {
+    cursor: pointer;
     margin-right: 1rem;
     width: 1.5rem;
     height: 1.5rem;
-    background-image: url("../public/circle.svg");
+    background-image: $img;
     background-size: 1.4rem;
     background-repeat: no-repeat;
     display: flex;
@@ -31,6 +32,7 @@ body {
 
 header {
     color: $w;
+    user-select: none;
     height: 45vh;
     padding-top: 5rem;
     background-image: url("../public/bg-desktop-light.jpg");
@@ -44,7 +46,7 @@ header {
         flex-direction: column;
 
         div {
-            letter-spacing: $ls;
+            letter-spacing: $letter-spacing;
             @include width_main;
             margin-bottom: 2.7rem;
             display: flex;
@@ -52,7 +54,14 @@ header {
 
             h1 {
                 font-size: 3rem;
-                user-select: none;
+            }
+
+            .DarkOrLight {
+                width: 2rem;
+                height: 2rem;
+                background-image: url("../public/icon-moon.svg");
+                background-size: cover;
+                background-repeat: no-repeat;
             }
         }
 
@@ -72,14 +81,26 @@ header {
             }
 
             .circle {
-                @extend %circle;
+                @include circle;
 
+                &:hover {
+                    @include circle(url("../public/circle-hover.svg"));
+                }
+
+                &:hover>img {
+                    filter: brightness(0) saturate(100%) invert(52%) sepia(40%) saturate(2149%) hue-rotate(82deg) brightness(114%) contrast(128%);
+                }
+
+                img {
+                    filter: brightness(0) saturate(100%) invert(65%) sepia(18%) saturate(206%) hue-rotate(198deg) brightness(89%) contrast(90%);
+                }
             }
 
             .create_title {
                 color: $bl;
                 font-size: 1rem;
-                height: 2rem;
+                height: 5vh;
+                width: 100%;
                 padding: 0 0.3rem;
                 border-style: none;
 
@@ -98,17 +119,18 @@ main {
     align-items: center;
     border-radius: $radius;
 
-    #list_post {
+    .content_todo {
         @include width_main;
+        border-radius: $radius;
+        box-shadow: $shadow;
         display: flex;
         align-items: center;
         flex-direction: column;
-        box-shadow: $shadow;
 
-        // POSTS
-        .posts {
+        .lists {
             width: 100%;
             @include height_posts;
+            @include width_main;
             padding: 1rem $paddingX;
             background-color: $w;
             border-bottom: solid 0.1rem $g;
@@ -120,7 +142,33 @@ main {
                 border-top-left-radius: $radius;
                 border-top-right-radius: $radius;
             }
+        }
 
+
+        .zero_posts {
+            padding: 0;
+
+            label {
+                width: 100%;
+                height: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                cursor: pointer;
+
+                p {
+                    color: $bl;
+                    font-size: 2.2rem;
+                    font-weight: bold;
+                    user-select: none;
+                }
+            }
+        }
+
+
+
+        // POSTS
+        .posts {
             div {
                 display: flex;
                 align-items: center;
@@ -128,7 +176,7 @@ main {
                 @extend %checkbox_none;
 
                 .circle {
-                    @extend %circle;
+                    @include circle;
 
                     &:hover {
                         background-image: url("../public/circle-hover.svg");
@@ -140,6 +188,7 @@ main {
                     display: flex;
                     align-items: center;
                 }
+
             }
 
             .cross {
@@ -156,6 +205,7 @@ main {
         // FOOTER LIST
         .footer_list {
             color: $g;
+            user-select: none;
             width: 100%;
             @include height_posts(3rem);
             padding: 0 $paddingX;
@@ -177,14 +227,12 @@ main {
                 flex-direction: row;
                 gap: 4%;
 
-                li {
-                    button {
-                        font-weight: bold;
-                        padding: 0.3rem;
+                li button {
+                    font-weight: bold;
+                    padding: 0.3rem;
 
-                        &:hover {
-                            color: $b;
-                        }
+                    &:hover {
+                        color: $b;
                     }
                 }
             }
@@ -209,6 +257,7 @@ main {
         display: none;
         margin-top: 1rem;
         color: $g;
+        user-select: none;
         @include width_main(20.5rem);
         @include height_posts (3rem);
         background-color: $w;
@@ -231,6 +280,7 @@ main {
 
 // FOOTER
 footer {
+    margin-bottom: 2.5rem;
     color: $g;
     font-size: 0.6rem;
     text-align: center;
@@ -247,6 +297,11 @@ footer {
                 h1 {
                     font-size: 2rem;
                 }
+
+                .DarkOrLight {
+                    width: 1.7rem;
+                    height: 1.7rem;
+                }
             }
 
             // CREATE TODO
@@ -255,6 +310,7 @@ footer {
                 @include height_posts(3.5rem);
 
                 .create_title {
+                    width: 90%;
                     font-size: 0.8rem;
                 }
             }
@@ -262,17 +318,24 @@ footer {
     }
 
     main {
-        #list_post {
+        .content_todo {
             @include width_main(20.5rem);
 
-            // POSTS
-            .posts {
-                @include height_posts(3.5rem);
+            ul {
+                width: 100%;
 
-                div {
-                    span {
-                        font-size: 0.8rem;
-                    }
+                .lists {
+                    width: 100%;
+                    @include height_posts(3.5rem);
+                }
+
+                .zero_posts p {
+                    font-size: 1.5rem;
+                }
+
+                // POSTS
+                .posts div span {
+                    font-size: 0.8rem;
                 }
 
                 .cross {
@@ -297,17 +360,71 @@ footer {
     }
 }
 
-// JS🟡
-#bDark {
-    display: block;
-}
+// DARK MODE
+body[data-theme="dark"] {
+    background-color: $dBody;
 
-#bLight {
-    display: none;
-}
+    .lists {
+        color: $dText;
+        background-color: $dListAndCreate;
 
-// .checkboxActive {
-//     z-index: 1;
-//     border-radius: 50%;
-//     background: $lg;
-// }
+        label p {
+            color: $dText;
+        }
+    }
+
+    .create_todo {
+        background-color: $dListAndCreate;
+
+        .circle {
+            @include circle(url("../public/circle-dark.svg"));
+
+            &:hover {
+                @include circle(url("../public/circle-hover-dark.svg"));
+            }
+        }
+
+        .create_title {
+            color: $dText;
+            background-color: $dListAndCreate;
+        }
+    }
+
+    .posts div .circle {
+        @include circle(url("../public/circle-dark.svg"));
+
+        &:hover {
+            @include circle(url("../public/circle-hover-dark.svg"));
+        }
+    }
+
+    .footer_list {
+        color: $txtDarkFooterList;
+        background-color: $dListAndCreate;
+
+        ul li button:hover {
+            color: $w;
+        }
+
+        .clear:hover {
+            color: $w;
+        }
+
+        .clear:active {
+            color: $r;
+        }
+    }
+
+    .footer_list_mobile {
+        color: $txtDarkFooterList;
+        background-color: $dListAndCreate;
+
+        li button:hover {
+            color: $w;
+        }
+    }
+
+    footer {
+        color: $txtDarkFooterList;
+    }
+}
