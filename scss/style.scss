@@ -3,10 +3,8 @@ body {
     background-color: $body;
 }
 
-%checkbox_none {
-    .checkbox {
-        display: none;
-    }
+%input_none {
+    display: none;
 }
 
 @mixin width_main ($w: 37rem) {
@@ -18,7 +16,6 @@ body {
 }
 
 @mixin circle ($img: url("../public/circle.svg")) {
-    cursor: pointer;
     margin-right: 1rem;
     width: 1.5rem;
     height: 1.5rem;
@@ -28,6 +25,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
 }
 
 header {
@@ -80,7 +78,7 @@ header {
                 display: none;
             }
 
-            .circle {
+            .create {
                 @include circle;
 
                 &:hover {
@@ -103,6 +101,7 @@ header {
                 width: 100%;
                 padding: 0 0.3rem;
                 border-style: none;
+                border-radius: $radius;
 
                 &:focus {
                     outline: none;
@@ -124,86 +123,91 @@ main {
         border-radius: $radius;
         box-shadow: $shadow;
         display: flex;
-        align-items: center;
         flex-direction: column;
+        justify-content: center;
 
-        .lists {
+        // LISTS
+        #lists_empty {
+            font-size: 1.4rem;
+            user-select: none;
             width: 100%;
             @include height_posts;
             @include width_main;
-            padding: 1rem $paddingX;
+            border-top-left-radius: $radius;
+            border-top-right-radius: $radius;
             background-color: $w;
             border-bottom: solid 0.1rem $g;
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
-
-            &:first-child {
-                border-top-left-radius: $radius;
-                border-top-right-radius: $radius;
-            }
+            cursor: pointer;
         }
 
+        ul {
+            display: flex;
+            flex-direction: column-reverse;
 
-        .zero_posts {
-            padding: 0;
-
-            label {
+            .lists {
+                position: relative;
                 width: 100%;
-                height: 100%;
+                @include height_posts;
+                @include width_main;
+                padding: 1rem $paddingX;
+                background-color: $w;
+                border-bottom: solid 0.1rem $g;
                 display: flex;
-                justify-content: center;
                 align-items: center;
-                cursor: pointer;
 
-                p {
-                    color: $bl;
-                    font-size: 2.2rem;
-                    font-weight: bold;
-                    user-select: none;
+                &:last-child {
+                    border-top-left-radius: $radius;
+                    border-top-right-radius: $radius;
                 }
-            }
-        }
 
-
-
-        // POSTS
-        .posts {
-            div {
-                display: flex;
-                align-items: center;
-
-                @extend %checkbox_none;
-
-                .circle {
+                &::before {
+                    content: "";
                     @include circle;
-
-                    &:hover {
-                        background-image: url("../public/circle-hover.svg");
-                    }
-
                 }
 
-                span {
-                    display: flex;
+                &:hover::before {
+                    @include circle(url("../public/circle-hover.svg"));
+                }
+
+                .clear {
+                    position: absolute;
+                    right: 1.2rem;
+                    background: url("../public/icon-cross.svg") no-repeat;
+                    background-size: cover;
+                    display: none;
+                    width: 1rem;
+                    height: 1rem;
                     align-items: center;
+                    user-select: none;
+                    cursor: pointer;
                 }
 
+                &:hover>.clear {
+                    display: flex;
+                }
             }
 
-            .cross {
-                display: none;
-                width: 1rem;
-                align-items: center;
-            }
+            .checked {
+                color: $g;
+                text-decoration: line-through;
 
-            &:hover>.cross {
-                display: flex;
+                &::before {
+                    content: "";
+                    @include circle(url("../public/circle-checked.svg"));
+                }
+
+                &:hover::before {
+                    @include circle(url("../public/circle-checked.svg"));
+                }
             }
         }
 
         // FOOTER LIST
         .footer_list {
+            position: relative;
             color: $g;
             user-select: none;
             width: 100%;
@@ -213,33 +217,42 @@ main {
             border-bottom-left-radius: $radius;
             border-bottom-right-radius: $radius;
             display: flex;
-            justify-content: space-between;
             align-items: center;
 
             p {
-                width: 10rem;
+                margin-right: 2rem;
                 font-size: $min_txt;
             }
 
             ul {
+                margin: 0 auto;
                 display: flex;
-                justify-content: center;
                 flex-direction: row;
+                justify-content: center;
+                align-items: center;
                 gap: 4%;
 
-                li button {
-                    font-weight: bold;
-                    padding: 0.3rem;
+                li {
+                    input {
+                        @extend %input_none;
 
-                    &:hover {
-                        color: $b;
+                        &:checked~label {
+                            color: $blue;
+                        }
+                    }
+
+                    label {
+                        font-weight: bold;
+                        padding: 0.3rem;
+
+                        &:hover {
+                            color: $b;
+                        }
                     }
                 }
             }
 
-            .clear {
-                width: 10rem;
-                text-align: end;
+            .clear_completed {
                 font-size: $min_txt;
 
                 &:hover {
@@ -252,38 +265,15 @@ main {
             }
         }
     }
-
-    .footer_list_mobile {
-        display: none;
-        margin-top: 1rem;
-        color: $g;
-        user-select: none;
-        @include width_main(20.5rem);
-        @include height_posts (3rem);
-        background-color: $w;
-        border-radius: $radius;
-        box-shadow: $shadow;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-        gap: 1.5rem;
-
-        button {
-            font-weight: bold;
-
-            &:hover {
-                color: $b;
-            }
-        }
-    }
 }
 
 // FOOTER
 footer {
-    margin-bottom: 2.5rem;
+    margin-bottom: 3rem;
     color: $g;
     font-size: 0.6rem;
     text-align: center;
+    user-select: none;
 }
 
 @media screen and (max-width: 650px) {
@@ -318,8 +308,18 @@ footer {
     }
 
     main {
+        margin-bottom: 2.5rem;
+
+
+        // LISTS
         .content_todo {
             @include width_main(20.5rem);
+
+            #lists_empty {
+                font-size: 1rem;
+                width: 100%;
+                @include height_posts(3.5rem);
+            }
 
             ul {
                 width: 100%;
@@ -327,35 +327,34 @@ footer {
                 .lists {
                     width: 100%;
                     @include height_posts(3.5rem);
-                }
 
-                .zero_posts p {
-                    font-size: 1.5rem;
-                }
-
-                // POSTS
-                .posts div span {
-                    font-size: 0.8rem;
-                }
-
-                .cross {
-                    display: flex;
-                }
-            }
-
-            // FOOTER LIST
-            .footer_list {
-                padding-top: 1rem;
-                align-items: start;
-
-                ul {
-                    display: none;
+                    .clear {
+                        display: flex;
+                    }
                 }
             }
         }
 
-        .footer_list_mobile {
-            display: flex;
+        // FOOTER LIST
+        .footer_list {
+            position: relative;
+            padding-top: 1rem;
+
+            ul {
+                position: absolute;
+                top: 4rem;
+                left: 0;
+                @include width_main(20.5rem);
+                @include height_posts(3rem);
+                background-color: $w;
+                border-radius: $radius;
+                box-shadow: $shadow;
+            }
+
+            .clear_completed {
+                position: absolute;
+                right: 1.2rem;
+            }
         }
     }
 }
@@ -364,19 +363,10 @@ footer {
 body[data-theme="dark"] {
     background-color: $dBody;
 
-    .lists {
-        color: $dText;
-        background-color: $dListAndCreate;
-
-        label p {
-            color: $dText;
-        }
-    }
-
     .create_todo {
         background-color: $dListAndCreate;
 
-        .circle {
+        .create {
             @include circle(url("../public/circle-dark.svg"));
 
             &:hover {
@@ -390,11 +380,35 @@ body[data-theme="dark"] {
         }
     }
 
-    .posts div .circle {
-        @include circle(url("../public/circle-dark.svg"));
+    #lists_empty {
+        color: $dText;
+        background-color: $dListAndCreate;
+    }
 
-        &:hover {
-            @include circle(url("../public/circle-hover-dark.svg"));
+    ul {
+        .lists {
+            color: $dText;
+            background-color: $dListAndCreate;
+
+            &::before {
+                @include circle(url("../public/circle-dark.svg"));
+            }
+
+            &:hover::before {
+                @include circle(url("../public/circle-hover-dark.svg"));
+            }
+        }
+
+        .checked {
+            color: $g;
+
+            &::before {
+                @include circle(url("../public/circle-checked.svg"));
+            }
+
+            &:hover::before {
+                @include circle(url("../public/circle-checked.svg"));
+            }
         }
     }
 
@@ -402,25 +416,20 @@ body[data-theme="dark"] {
         color: $txtDarkFooterList;
         background-color: $dListAndCreate;
 
-        ul li button:hover {
+        ul {
+            background-color: $dListAndCreate;
+
+            li label:hover {
+                color: $w;
+            }
+        }
+
+        .clear_completed:hover {
             color: $w;
         }
 
-        .clear:hover {
-            color: $w;
-        }
-
-        .clear:active {
+        .clear_completed:active {
             color: $r;
-        }
-    }
-
-    .footer_list_mobile {
-        color: $txtDarkFooterList;
-        background-color: $dListAndCreate;
-
-        li button:hover {
-            color: $w;
         }
     }
 
