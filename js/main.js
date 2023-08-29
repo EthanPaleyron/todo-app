@@ -23,21 +23,25 @@ function createNewPosts() {
     }
     inputText.value = "";
     slist(listContainer);
-    counteur("li.lists");
+    todoCounteur("li.lists");
+    saveTodoList();
 }
 
 // COUNTEUR REMOVE
-function counteur(todo) {
-    document.querySelector("#todoCounteur").innerText = document.querySelectorAll(todo).length;
+function todoCounteur(todo) {
+    const counteur = document.querySelector("#todoCounteur");
+    counteur.innerHTML = document.querySelectorAll(todo).length;
+    saveCounteur();
 }
 
 // LISTS EMPTY
 function listsEmpty() {
     const allLists = document.querySelectorAll("li.lists");
+    const listsEmptyDisplay = document.querySelector("#lists_empty");
     if (allLists.length === 0) {
-        document.querySelector("#lists_empty").style.display = "flex";
+        listsEmptyDisplay.style.display = "flex";
     } else {
-        document.querySelector("#lists_empty").style.display = "none";
+        listsEmptyDisplay.style.display = "none";
     }
 }
 
@@ -89,6 +93,7 @@ DarkOrLight.addEventListener("click", () => {
         document.body.dataset["theme"] = "light";
         isDarkLight = true;
     }
+    saveDarkMode();
 })
 
 // CREATE TODO
@@ -107,10 +112,12 @@ listContainer.addEventListener("click", (e) => {
     if (e.target.tagName === "LI") {
         e.target.classList.toggle("checked");
         e.target.classList.remove("not_checked");
+        saveTodoList();
     } else if (e.target.tagName === "SPAN") {
-        if (confirm("Are you sure to delete this post")) {
+        if (confirm(`Are you sure to delete this post 🚮`)) {
             e.target.parentElement.remove();
-            counteur("li.lists");
+            todoCounteur("li.lists");
+            saveTodoList();
         }
         listsEmpty();
     }
@@ -118,13 +125,14 @@ listContainer.addEventListener("click", (e) => {
 
 // CLEAR COMPLETED
 document.querySelector(".clear_completed").addEventListener("click", () => {
-    if (confirm("Are you sure to remove all completed lists")) {
+    if (confirm("Are you sure to remove all completed lists ✅ => 🚮")) {
         const checked = document.getElementsByClassName("checked");
         const copyOfChecked = [...checked];
         for (let i = 0; i < copyOfChecked.length; i++) {
             copyOfChecked[i].remove();
+            saveTodoList();
         }
-        counteur("li.lists");
+        todoCounteur("li.lists");
         listsEmpty();
     }
 })
@@ -135,7 +143,8 @@ const all = document.querySelector("#all").addEventListener("click", () => {
     const copyOFLists = [...allLists];
     for (let i = 0; i < copyOFLists.length; i++) {
         copyOFLists[i].style.display = "flex";
-        counteur("li.lists");
+        todoCounteur("li.lists");
+        saveCounteur();
     }
 })
 
@@ -150,7 +159,8 @@ const active = document.querySelector("#active").addEventListener("click", () =>
     for (let i = 0; i < copyOfChecked.length; i++) {
         copyOfChecked[i].style.display = "flex";
     }
-    counteur("li.lists:not(.checked)");
+    todoCounteur("li.lists:not(.checked)");
+    saveCounteur();
 })
 
 const completed = document.querySelector("#completed").addEventListener("click", () => {
@@ -164,5 +174,30 @@ const completed = document.querySelector("#completed").addEventListener("click",
     for (let i = 0; i < copyOfNotChecked.length; i++) {
         copyOfNotChecked[i].style.display = "flex";
     }
-    counteur("li.checked");
+    todoCounteur("li.checked");
+    saveCounteur();
 })
+
+// Local Storage
+function saveTodoList() {
+    localStorage.setItem("data", listContainer.innerHTML);
+}
+
+function saveDarkMode() {
+    localStorage.setItem("darkMode", document.body.dataset["theme"]);
+    localStorage.setItem("darkModeLogo", DarkOrLight.style.backgroundImage);
+    localStorage.setItem("header", header.style.backgroundImage);
+}
+
+function saveCounteur() {
+    localStorage.setItem("counteur", document.querySelector("#todoCounteur").innerHTML);
+}
+
+function slowData() {
+    listContainer.innerHTML = localStorage.getItem("data");
+    document.body.dataset["theme"] = localStorage.getItem("darkMode");
+    DarkOrLight.style.backgroundImage = localStorage.getItem("darkModeLogo");
+    header.style.backgroundImage = localStorage.getItem("header");
+    document.querySelector("#todoCounteur").innerHTML = localStorage.getItem("counteur");
+}
+slowData();
